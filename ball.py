@@ -11,6 +11,7 @@ class Ball:
         self._mass = mass
         self._t = 0
         self._dt = 0.01
+        self._ball_shape = []
 
     def update_pos(self):
         pos = self._pos[self._t]
@@ -31,6 +32,17 @@ class Ball:
 
         self._vel.append([vx,vy])
         self._pos.append([x,y])
+
+        self.update_ball_shape()
+
+        return
+
+    def update_ball_shape(self):
+
+        s = np.linspace(0, 2 * np.pi, 100)
+        y = self._radius*np.sin(s) + self._pos[self._t][1]
+        x = self._radius*np.cos(s) + self._pos[self._t][0]
+        self._ball_shape.append([x,y])
 
         return
         
