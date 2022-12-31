@@ -1,17 +1,34 @@
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
 
-def setup_animation(ball):
+class Animate_Ball:
 
-    plt.figure("Ball World")
-    plt.xlim([-10,10])
-    plt.ylim([-10,10])
-    
-    # Would be from ball object
-    t = np.linspace(0, 2 * np.pi, 100)
-    r = 3
-    y = r*np.sin(t)
-    x = r*np.cos(t)
+    def __init__(self, ball):
+        self.fig = plt.figure()
+        self.ax = plt.axes(xlim=(-10, 10), ylim=(-10, 10))
+        self.circle = plt.Circle(([],[]),ball._radius)
+        self.data = ball._pos
 
-    plt.plot(x,y)
-    plt.show()
+    def set_ball_path(self):
+        self.data_x = self.data[0]
+        self.data_y = self.data[1]
+
+    def init_anim(self):
+        self.circle.center = (self.data[0][0], self.data[0][1])
+        self.ax.add_patch(self.circle)
+        return self.circle,
+
+    def update(self, i):
+        x = self.data[i][0]
+        y = self.data[i][1]
+
+        self.circle.center = (x, y)
+
+        return self.circle,
+
+    def animate(self):
+        ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init_anim,
+              blit=True)
+
+        plt.show()
