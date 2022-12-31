@@ -2,33 +2,33 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 
-def animation_setup(ball):
-    circle = plt.Circle((ball._pos[0][0],ball._pos[0][1]),ball._radius)
+class Animate_Ball:
 
-    return circle,
+    def __init__(self, ball):
+        self.fig = plt.figure()
+        self.ax = plt.axes(xlim=(-10, 10), ylim=(-10, 10))
+        self.circle = plt.Circle(([],[]),ball._radius)
+        self.data = ball._pos
 
-def init():
+    def set_ball_path(self):
+        self.data_x = self.data[0]
+        self.data_y = self.data[1]
 
-    return circle,
+    def init_anim(self):
+        self.circle.center = (self.data[0][0], self.data[0][1])
+        self.ax.add_patch(self.circle)
+        return self.circle,
 
-def animate(i):
+    def update(self, i):
+        x = self.data[i][0]
+        y = self.data[i][1]
 
-    y = ball._pos[i][1]
-    x = ball._pos[i][0]
+        self.circle.center = (x, y)
 
-    circle.center = (x,y)
+        return self.circle,
 
-    return circle,
+    def animate(self):
+        ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init_anim,
+              blit=True)
 
-def run_animation(ball):
-
-    fig = plt.figure() 
-    circle = animation_setup(ball)
-
-    ax = plt.axes(xlim=(-10, 10), ylim=(-10, 10))
-    ax.add_patch(circle)
-
-    ani = animation.FuncAnimation(fig, animate, init_func=init,frames=360, interval=20,blit=True)
-    plt.show()
-
-    return
+        plt.show()
