@@ -6,7 +6,7 @@ class Animate_Ball:
 
     def __init__(self, ball):
         self.fig = plt.figure()
-        self.ax = plt.axes(xlim=(-10, 10), ylim=(-10, 10))
+        self.ax = plt.axes(xlim=(-10, 10), ylim=(0, 30))
         self.circle = plt.Circle(([],[]),ball._radius)
         self.data = ball._pos
 
@@ -20,8 +20,8 @@ class Animate_Ball:
         return self.circle,
 
     def update(self, i):
-        x = self.data[i][0]
-        y = self.data[i][1]
+        x = self.data[i*5][0]
+        y = self.data[i*5][1]
 
         self.circle.center = (x, y)
 
@@ -31,4 +31,5 @@ class Animate_Ball:
         ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init_anim,
               blit=True)
 
+        #plt.axis('scaled')
         plt.show()
