@@ -1,31 +1,33 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import numpy as np
 
 class Animate_Ball:
 
-    def __init__(self, ball):
+    def __init__(self, ball_vector):
         self.fig = plt.figure()
         self.ax = plt.axes(xlim=(-10, 10), ylim=(0, 30))
-        self.circle = plt.Circle(([],[]),ball._radius)
-        self.data = ball._pos
-
-    def set_ball_path(self):
-        self.data_x = self.data[0]
-        self.data_y = self.data[1]
+        self.circle_vector = []
+        self.data_vector = []
+        for ball in ball_vector:
+            self.circle_vector.append(plt.Circle(([],[]),ball._radius))
+            self.data_vector.append(ball._pos)
 
     def init_anim(self):
-        self.circle.center = (self.data[0][0], self.data[0][1])
-        self.ax.add_patch(self.circle)
-        return self.circle,
+        for idx, circle in enumerate(self.circle_vector):
+            circle.center = (self.data_vector[idx][0][0], self.data_vector[idx][0][1])
+            self.ax.add_patch(circle)
+        return tuple(self.circle_vector)
+        #return self.circle,
 
     def update(self, i):
-        x = self.data[i*5][0]
-        y = self.data[i*5][1]
+        for idx, circle in enumerate(self.circle_vector):
+            
+            x = self.data_vector[idx][i*5][0]
+            y = self.data_vector[idx][i*5][1]
 
-        self.circle.center = (x, y)
+            circle.center = (x, y)
 
-        return self.circle,
+        return tuple(self.circle_vector)
 
     def animate(self):
         ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init_anim,

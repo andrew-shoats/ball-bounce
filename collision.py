@@ -23,5 +23,8 @@ def collision_check_wall(ball): # (ball, wall)
 
     return distance <= ball._radius
 
-def collision_check_ball():
-    return
+def collision_check_ball(ball1, ball2):
+    return distance_between_balls(ball1, ball2) <= (ball1._radius + ball2._radius)**2
+
+def distance_between_balls(ball1, ball2):
+    return (ball1._pos[ball1._t][0]-ball2._pos[ball1._t][0])**2 + (ball1._pos[ball1._t][1]-ball2._pos[ball1._t][1])**2
